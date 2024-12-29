@@ -36,6 +36,7 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
     const roomsCollection = client.db("hotelDB").collection("rooms");
+    const RoomBookedCollection = client.db("hotelDB").collection("booked");
   
 
 
@@ -54,7 +55,12 @@ async function run() {
         res.send(result);
       });
 
-
+        app.post('/my-booked-room', async(req,res)=>{
+          const MyRoom = req.body;
+          const result = await RoomBookedCollection.insertOne(MyRoom);
+          res.send(result);
+        })
+    
 
 
   } finally {
