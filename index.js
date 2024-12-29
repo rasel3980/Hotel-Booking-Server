@@ -60,7 +60,13 @@ async function run() {
           const result = await RoomBookedCollection.insertOne(MyRoom);
           res.send(result);
         })
-    
+      //  getting data by email
+    app.get("/my-booked-room", async (req, res) => {
+      const email = req.query.email;
+      const query = { bookingEmail: email };
+      const result = await RoomBookedCollection.find(query).toArray();
+      res.send(result);
+    });
 
 
   } finally {
