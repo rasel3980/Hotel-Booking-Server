@@ -68,6 +68,15 @@ async function run() {
       res.send(result);
     });
 
+    app.delete("/room-cancel/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await roomsCollection.deleteOne(query);
+      res.send(result);
+      // console.log(result);
+    });
+
+
 
   } finally {
     // Ensures that the client will close when you finish/error
