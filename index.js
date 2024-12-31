@@ -71,11 +71,44 @@ async function run() {
     app.delete("/room-cancel/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
-      const result = await roomsCollection.deleteOne(query);
+      const result = await RoomBookedCollection.deleteOne(query);
       res.send(result);
-      // console.log(result);
     });
+     // update Room
 
+     app.put("/update-room/:id", async (req, res) => {
+      const id = req.params.id;
+      const { 
+        price_per_night, 
+        room_name, 
+        room_type, 
+        photo, 
+        availability_status, 
+        room_size, 
+        user_reviews, 
+        room_description, 
+        available_amenities, 
+        location 
+    } = req.body;
+      const filter = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const room = {
+        $set: {
+          price_per_night:price_per_night,
+          room_name:room_name,
+          room_type:room_type,
+          photo:photo,
+          availability_status:availability_status,
+          room_size:room_size,
+          user_reviews:user_reviews,
+          room_description:room_description,
+          available_amenities:available_amenities,
+          location:location,
+        },
+      };
+      const result = await roomsCollection.updateOne(filter,room,options);
+      res.send(result);
+    });
 
 
   } finally {
