@@ -39,7 +39,20 @@ async function run() {
 
     // get all rooms
     app.get("/room-data", async (req, res) => {
-      const result = await roomsCollection.find().toArray();
+      const sort = req.query.sort;
+          let sortOptions = {};
+          if (sort === "asc") {
+        sortOptions = { price_per_night: 1 };
+      } else if (sort === "dsc") {
+        sortOptions = { price_per_night: -1 };
+      }
+        const result = await roomsCollection.find({}).sort(sortOptions).toArray();
+        res.send(result);
+    });
+    
+    // get all rooms
+    app.get("/top-reateed", async (req, res) => {
+      const result = await roomsCollection.find().sort({_id: -1}).limit(6).toArray();
       // console.log(result);
       res.send(result);
     });
@@ -82,6 +95,7 @@ async function run() {
     app.put("/update-room/:id", async (req, res) => {
       const id = req.params.id;
       const  {date}  = req.body;
+      // console.log(date);
       const filter = { _id: new ObjectId(id) };
       const options = { upsert: true };
       const room = {
@@ -94,7 +108,6 @@ async function run() {
         room,
         options
       );
-      console.log(result);
       res.send(result);
     });
   } finally {
