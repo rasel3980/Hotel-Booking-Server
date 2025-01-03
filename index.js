@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express")
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -11,7 +11,6 @@ const port = process.env.PORT || 5000;
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-    "",
     "http://localhost:5174",
     "http://localhost:5175",
     "https://hotel-booking-platform-b1fc3.web.app",
@@ -71,7 +70,7 @@ async function run() {
       const token = jwt.sign(email, process.env.SECRET_KEY, {
         expiresIn: "365d",
       });
-      console.log(token);
+      // console.log(token);
       res
         .cookie("token", token, {
           httpOnly: true,
