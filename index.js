@@ -106,7 +106,7 @@ async function run() {
     });
 
     // get all rooms
-    app.get("/top-reateed", async (req, res) => {
+    app.get("/top-rated", async (req, res) => {
       const result = await roomsCollection
         .find()
         .sort({ _id: -1 })
@@ -189,3 +189,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`hotel booking server is running port:${port}`);
 });
+
+module.exports = app;
